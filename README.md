@@ -6,16 +6,21 @@ It checks the **4 GB FAT32** file-size limit used by microSD cards those devices
 
 You do **not** need Garmin Express.
 
-## Install the app (Dock / Applications)
+## Download the app
 
-1. Download the repo as a ZIP: [garmin-map-combiner-main.zip](https://github.com/wilsonsamiano/garmin-map-combiner/archive/refs/heads/main.zip) and unzip it.
+**[Garmin-Map-Combiner-macOS.zip](https://github.com/wilsonsamiano/garmin-map-combiner/releases/download/v1.0.0/Garmin-Map-Combiner-macOS.zip)** (v1.0.0)
+
+1. Unzip the download.
+2. Right-click **Garmin Map Combiner.app → Open**. macOS will warn that the developer is unidentified — choose **Open**.
+3. Drag the app to the Dock.
+
+The app is unsigned. Do not double-click it the first time; right-click Open is required once.
+
+## Alternate install (uses Homebrew Python)
+
+1. Download the source ZIP: [garmin-map-combiner-main.zip](https://github.com/wilsonsamiano/garmin-map-combiner/archive/refs/heads/main.zip) and unzip it.
 2. Right-click **`install-macos.command` → Open**.
-   - If macOS blocks it, choose **Open** on the Gatekeeper dialog.
-   - If double-click does nothing, open Terminal, type `bash ` (with a space), drag the file in, press Return.
-3. The installer writes **`~/Applications/Garmin Map Combiner.app`**.
-4. Open it from there, then **drag it to the Dock**.
-
-A standalone unsigned `.app` is also built on every push and attached to [Releases](https://github.com/wilsonsamiano/garmin-map-combiner/releases). Unzip it, right-click → **Open**.
+3. That writes **`~/Applications/Garmin Map Combiner.app`**. Drag it to the Dock.
 
 ## What you still need on the Mac
 
@@ -24,7 +29,8 @@ A standalone unsigned `.app` is also built on every push and attached to [Releas
 | macOS 13+ (Apple Silicon or Intel) | This app is a Mac GUI |
 | [Java](https://formulae.brew.sh/formula/openjdk) (`brew install openjdk`) | Runs mkgmap |
 | [mkgmap](https://www.mkgmap.org.uk/download/mkgmap.html) (`mkgmap.jar`) | Builds the combined map |
-| Python 3.13 + Tk (`brew install python@3.13 python-tk@3.13`) | Only needed for the installer path, not the Releases `.app` |
+
+Python is **not** required for the Releases `.app`.
 
 ## First run
 
