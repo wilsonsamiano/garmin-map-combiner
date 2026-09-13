@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+dist/
+build/
+*.spec
+combined/
+*.img
+*.7z
+vendor/*.jar
+.venv/
