@@ -24,12 +24,11 @@ CANDIDATE_JAVA = [
     Path("/usr/libexec/java_home"),
 ]
 
-CANDIDATE_MKGMAP = [
-    HOME / "Downloads" / "mkgmap-r4924" / "mkgmap.jar",
-    HOME / "Downloads" / "mkgmap" / "mkgmap.jar",
-    Path(__file__).resolve().parent / "vendor" / "mkgmap.jar",
-    Path(__file__).resolve().parent / "mkgmap.jar",
-]
+
+def resource_dir() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent.parent / "Resources"
+    return Path(__file__).resolve().parent
 
 
 def which_java() -> str | None:
@@ -50,7 +49,13 @@ def which_java() -> str | None:
 
 
 def which_mkgmap() -> str | None:
-    for p in CANDIDATE_MKGMAP:
+    base = resource_dir()
+    for p in (
+        HOME / "Downloads" / "mkgmap-r4924" / "mkgmap.jar",
+        HOME / "Downloads" / "mkgmap" / "mkgmap.jar",
+        base / "vendor" / "mkgmap.jar",
+        base / "mkgmap.jar",
+    ):
         if p.is_file():
             return str(p)
     downloads = HOME / "Downloads"
@@ -71,6 +76,7 @@ class App(tk.Tk):
         self.files: list[str] = []
         self.java = which_java()
         self._style()
+        self._menu()
         self._build()
 
     def _style(self) -> None:
@@ -104,6 +110,27 @@ class App(tk.Tk):
         s.map("Accent.TButton", background=[("active", "#eceee9")])
         s.configure("TEntry", fieldbackground=surface, foreground=fg, insertcolor=fg)
         s.configure("Horizontal.TProgressbar", troughcolor=surface, background=accent)
+
+    def _menu(self) -> None:
+        if sys.platform != "darwin":
+            return
+        menubar = tk.Menu(self)
+        apple = tk.Menu(menubar, name="apple")
+        menubar.add_cascade(menu=apple)
+        apple.add_command(label=f"About {APP_NAME}", command=self.about)
+        self.config(menu=menubar)
+        try:
+            self.createcommand("tkAboutDialog", self.about)
+        except tk.TclError:
+            pass
+
+    def about(self) -> None:
+        messagebox.showinfo(
+            APP_NAME,
+            "Merges OSM / GMapTool .img files into one gmapsupp.img\n"
+            "for older Garmin nüvi units (FAT32, under 4 GB).\n\n"
+            "https://github.com/wilsonsamiano/garmin-map-combiner",
+        )
 
     def _build(self) -> None:
         pad = {"padx": 20, "pady": 6}
